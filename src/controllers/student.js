@@ -1,75 +1,72 @@
 import StudentData from "../models/student.js";
-import response from "../services/response/response.js";
 
 export const getStudents = async (req, res) => {
+  // res.send('Router is working');
   try {
     const allStudents = await StudentData.find();
-    console.log(allStudents);
-    response.succesResponse(res, 200, allStudents);
+
+    res.status(200).json(allStudents);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
 
 export const createStudent = async (req, res) => {
+  // res.send('Router is working');
   const student = req.body;
+
+  console.log(student);
+
   const newStudent = new StudentData(student);
+
+  console.log(newStudent);
+
   try {
     await newStudent.save();
-    response.succesResponse(res, 201, newStudent);
+    res.status(201).json(newStudent);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
 };
 
-export const deleteStudent = async (req, res) => {
-  // res.send('Router is working');
-  try {
-    console.log(req.query.id);
-    const deleteStudentResp = await StudentData.findByIdAndDelete(req.query.id);
-    response.succesResponse(res, 200, deleteStudentResp);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
-};
-
 export const editStudent = async (req, res) => {
+  // res.send('Router is working');
   const student = req.body;
-  console.log(req.body);
+
+  console.log(student);
 
   try {
     const foundStudent = await StudentData.findOne({ _id: student.id });
 
     console.log(foundStudent);
-    if (foundStudent) {
-      let myquery = { _id: student.id };
-      let newvalues = {
-        $set: {
-          date: student.date,
-          studentName: student.studentName,
-          vaccineStatus: student.vaccineStatus,
-          vaccineName: student.vaccineName,
-        },
-      };
-      const updatedDrive = await StudentData.updateOne(myquery, newvalues);
-      res.status(201).json(updatedDrive);
-    } else {
-      response.errorResponse(res, 400, "User Not Found");
-    }
+    var myquery = { _id: student.id };
+    var newvalues = {
+      $set: {
+        date: student.date,
+        studentName: student.studentName,
+        vaccineStatus: student.vaccineStatus,
+        vaccineName: student.vaccineName,
+      },
+    };
+    const updatedDrive = await StudentData.updateOne(myquery, newvalues);
+    res.status(201).json(updatedDrive);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
 
-export const studentStatusUpdate = async (req, res) => {
+export const vaccinateStudent = async (req, res) => {
+  // res.send('Router is working');
   const student = req.body;
+
+  console.log(student);
 
   try {
     const foundStudent = await StudentData.findOne({ _id: student.id });
 
     console.log(foundStudent);
-    let myquery = { _id: student.id };
-    let newvalues = {
+    var myquery = { _id: student.id };
+    var newvalues = {
       $set: {
         date: Date.now(),
         studentName: foundStudent.studentName,
@@ -84,24 +81,31 @@ export const studentStatusUpdate = async (req, res) => {
   }
 };
 
-export const uploadStudents = async (req, res) => {
-  const file = req.file;
-  console.log("#FILE", file);
-  // const newStudent = new StudentData(student);
+export const deleteStudent = async (req, res) => {
+  // res.send('Router is working');
   try {
-    // await newStudent.save();
-    // response.succesResponse(res, 201, newStudent);
+    console.log(req.query.id);
+    const deleteStudentResp = await StudentData.findByIdAndDelete(req.query.id);
+
+    res.status(200).json(deleteStudentResp);
   } catch (error) {
-    res.status(409).json({ message: error.message });
+    res.status(404).json({ message: error.message });
   }
 };
-export const downloadReport = async (req, res) => {
-  const file = req.file;
-  console.log("#FILE", file);
-  // const newStudent = new StudentData(student);
+
+export const uploadStudent = async (req, res) => {
+  // res.send('Router is working');
+  const student = req.body;
+
+  console.log(student);
+
+  const newStudent = new StudentData(student);
+
+  console.log(newStudent);
+
   try {
-    // await newStudent.save();
-    // response.succesResponse(res, 201, newStudent);
+    await newStudent.save();
+    res.status(201).json(newStudent);
   } catch (error) {
     res.status(409).json({ message: error.message });
   }
