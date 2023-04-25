@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 //Routes
-app.use("/api/v1/student/", studentRoute);
+app.use("/student/", studentRoute);
 // app.use("/api/v1/vaccineDrive/", vaccineRoute);
 // app.use("/api/v1/landing/", landingDetailsRoute);
 // app.use("/api/v1/report/", reportRoute);
