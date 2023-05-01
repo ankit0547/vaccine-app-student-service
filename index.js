@@ -4,7 +4,7 @@ import cors from "cors";
 import connectdb from "./src/config/dbConfig.js";
 // import options from "./src/swagger/options.js";
 // import swaggerUi from "swagger-ui-express";
-import { studentRoute } from "./src/routes/index.js";
+import landingDetailsRoute from "./src/routes/landingDetails.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -33,9 +33,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 //Routes
-app.use("/student/", studentRoute);
-// app.use("/api/v1/vaccineDrive/", vaccineRoute);
-// app.use("/api/v1/landing/", landingDetailsRoute);
-// app.use("/api/v1/report/", reportRoute);
+app.use("/landing/", landingDetailsRoute);
 
 app.listen(PORT, () => console.log(`server is running at ${PORT} port!!`));
